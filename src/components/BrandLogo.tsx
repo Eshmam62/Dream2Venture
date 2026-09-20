@@ -8,21 +8,6 @@ interface BrandLogoProps {
 }
 
 export const BrandLogo: React.FC<BrandLogoProps> = ({ className = '', size = 'md' }) => {
-  const [isOverLight, setIsOverLight] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      // Switches to ash background when scrolling down past the dark hero area
-      const heroThreshold = typeof window !== 'undefined' ? window.innerHeight * 0.85 : 350;
-      setIsOverLight(window.scrollY > heroThreshold);
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll(); // initial check
-
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
   const sizeClasses = {
     sm: 'h-8 sm:h-9',
     md: 'h-10 sm:h-12 md:h-14',
@@ -37,11 +22,7 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({ className = '', size = 'md
 
   return (
     <div
-      className={`inline-flex items-center justify-center rounded-full transition-all duration-300 select-none ${
-        isOverLight
-          ? 'bg-slate-100/95 border border-slate-300 shadow-[0_10px_25px_-5px_rgba(15,23,42,0.15)] backdrop-blur-md'
-          : 'bg-white border border-slate-200/80 shadow-[0_10px_25px_-5px_rgba(0,0,0,0.3)]'
-      } ${padClasses[size]} ${className}`}
+      className={`inline-flex items-center justify-center transition-all duration-300 select-none ${padClasses[size]} ${className}`}
     >
       <img
         src="/footerlogo.png"

@@ -63,8 +63,40 @@ export default function ApplicationForm() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
+    if (!formData.fullName.trim()) {
+      alert("Please enter your Full Name.");
+      return;
+    }
+    if (!formData.email.trim() || !/^\S+@\S+\.\S+$/.test(formData.email)) {
+      alert("Please enter a valid Email Address.");
+      return;
+    }
+    if (!formData.university.trim()) {
+      alert("Please enter your University / Institution.");
+      return;
+    }
+    if (!formData.startupName.trim()) {
+      alert("Please enter your Idea / Startup Name.");
+      return;
+    }
+    if (!formData.ideaDescription.trim()) {
+      alert("Please briefly describe your idea.");
+      return;
+    }
+    if (!formData.problemSolved.trim()) {
+      alert("Please explain what problem your idea solves.");
+      return;
+    }
+    if (!formData.category) {
+      alert("Please select a Category.");
+      return;
+    }
+    if (!formData.stage) {
+      alert("Please select your Current Stage.");
+      return;
+    }
     if (!formData.file) {
-      alert('Please upload your pitch deck (PDF or PPT/PPTX) before submitting.');
+      alert("Please upload your Pitch Deck / Supporting File.");
       setFileError('Required');
       return;
     }
@@ -100,54 +132,45 @@ export default function ApplicationForm() {
   return (
     <form onSubmit={handleSubmit} className="flex flex-col w-full relative z-10">
       
-      {/* Registration Form Top Header Logo */}
-      <div className="flex justify-center items-center mb-6">
-        <div className="inline-flex items-center justify-center px-6 py-2.5 rounded-full bg-slate-100 border border-slate-300/90 shadow-sm hover:shadow-md transition-all duration-300 select-none">
-          <img
-            src="/footerlogo.png"
-            alt="Dream 2 Venture"
-            className="h-10 sm:h-12 w-auto object-contain block"
-          />
-        </div>
-      </div>
+
 
             {/* Form Fields Area */}
             <div className="w-full space-y-5 pb-4">
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-1.5">
-                  <label className="text-[14px] font-semibold text-slate-700 block">Full Name</label>
-                  <input type="text" required value={formData.fullName} onChange={e => setFormData({ ...formData, fullName: e.target.value })} placeholder="Tanvir Ahmed" className="w-full bg-slate-50 border border-slate-200 text-[15px] rounded-lg px-3.5 py-3.5 focus:ring-2 focus:ring-blue-100 focus:border-blue-500 outline-none transition-all placeholder:text-slate-400" />
+                  <label className="text-[14px] font-semibold text-slate-700 block">Full Name <span className="text-red-500">*</span></label>
+                  <input type="text" required value={formData.fullName} onChange={e => setFormData({ ...formData, fullName: e.target.value })} placeholder="Enter your full name" className="w-full bg-slate-50 border border-slate-200 text-[15px] rounded-lg px-3.5 py-3.5 focus:ring-2 focus:ring-blue-100 focus:border-blue-500 outline-none transition-all placeholder:text-slate-400" />
                 </div>
                 <div className="space-y-1.5">
-                  <label className="text-[14px] font-semibold text-slate-700 block">Email Address</label>
+                  <label className="text-[14px] font-semibold text-slate-700 block">Email Address <span className="text-red-500">*</span></label>
                   <input type="email" required value={formData.email} onChange={e => setFormData({ ...formData, email: e.target.value })} placeholder="you@example.com" className="w-full bg-slate-50 border border-slate-200 text-[15px] rounded-lg px-3.5 py-3.5 focus:ring-2 focus:ring-blue-100 focus:border-blue-500 outline-none transition-all placeholder:text-slate-400" />
                 </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-1.5">
-                  <label className="text-[14px] font-semibold text-slate-700 block">University / Institution</label>
+                  <label className="text-[14px] font-semibold text-slate-700 block">University / Institution <span className="text-red-500">*</span></label>
                   <input type="text" required value={formData.university} onChange={e => setFormData({ ...formData, university: e.target.value })} placeholder="Enter your university or institution name" className="w-full bg-slate-50 border border-slate-200 text-[15px] rounded-lg px-3.5 py-3.5 focus:ring-2 focus:ring-blue-100 focus:border-blue-500 outline-none transition-all placeholder:text-slate-400" />
                 </div>
                 <div className="space-y-1.5">
-                  <label className="text-[14px] font-semibold text-slate-700 block">Idea / Startup Name</label>
+                  <label className="text-[14px] font-semibold text-slate-700 block">Idea / Startup Name <span className="text-red-500">*</span></label>
                   <input type="text" required value={formData.startupName} onChange={e => setFormData({ ...formData, startupName: e.target.value })} placeholder="Project / Startup Name" className="w-full bg-slate-50 border border-slate-200 text-[15px] rounded-lg px-3.5 py-3.5 focus:ring-2 focus:ring-blue-100 focus:border-blue-500 outline-none transition-all placeholder:text-slate-400" />
                 </div>
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-[14px] font-semibold text-slate-700 block">What is your idea?</label>
+                <label className="text-[14px] font-semibold text-slate-700 block">What is your idea? <span className="text-red-500">*</span></label>
                 <textarea required rows={4} value={formData.ideaDescription} onChange={e => setFormData({ ...formData, ideaDescription: e.target.value })} placeholder="Briefly describe your idea and what you're building..." className="w-full bg-slate-50 border border-slate-200 text-[15px] rounded-lg px-3.5 py-3.5 focus:ring-2 focus:ring-blue-100 focus:border-blue-500 outline-none resize-none transition-all placeholder:text-slate-400"></textarea>
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-[14px] font-semibold text-slate-700 block">What problem does it solve?</label>
+                <label className="text-[14px] font-semibold text-slate-700 block">What problem does it solve? <span className="text-red-500">*</span></label>
                 <textarea required rows={4} value={formData.problemSolved} onChange={e => setFormData({ ...formData, problemSolved: e.target.value })} placeholder="Explain the problem you're solving..." className="w-full bg-slate-50 border border-slate-200 text-[15px] rounded-lg px-3.5 py-3.5 focus:ring-2 focus:ring-blue-100 focus:border-blue-500 outline-none resize-none transition-all placeholder:text-slate-400"></textarea>
               </div>
 
               <div className="space-y-2">
-                <label className="text-[14px] font-semibold text-slate-700 block">Category</label>
+                <label className="text-[14px] font-semibold text-slate-700 block">Category <span className="text-red-500">*</span></label>
                 <div className="flex flex-wrap gap-2">
                   {categories.map(c => (
                     <button type="button" key={c} onClick={() => setFormData({ ...formData, category: c })} className={`px-4 py-2 text-[14px] font-medium rounded-full border transition-colors ${formData.category === c ? 'bg-blue-50 border-blue-600 text-blue-700' : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'}`}>{c}</button>
@@ -156,7 +179,7 @@ export default function ApplicationForm() {
               </div>
 
               <div className="space-y-2">
-                <label className="text-[14px] font-semibold text-slate-700 block">Current Stage</label>
+                <label className="text-[14px] font-semibold text-slate-700 block">Current Stage <span className="text-red-500">*</span></label>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mt-2">
                   {stages.map(s => (
                     <button type="button" key={s.label} onClick={() => setFormData({ ...formData, stage: s.label })} className={`flex flex-col items-center justify-center p-3 rounded-xl border transition-colors gap-1.5 ${formData.stage === s.label ? 'bg-blue-50 border-blue-600 text-blue-700' : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'}`}>

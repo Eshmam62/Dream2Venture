@@ -7,7 +7,7 @@ const offersList = [
   {
     id: '01',
     category: 'DIGITAL & AI',
-    color: 'text-amber-500 bg-amber-500',
+    color: 'text-[#E64A19] bg-[#E64A19]',
     icon: <Cpu className="w-6 h-6 text-white" />,
     items: [
       { label: 'AI & Machine Learning', icon: <Sparkles size={16} /> },
@@ -33,7 +33,7 @@ const offersList = [
   {
     id: '03',
     category: 'INDUSTRIAL & INFRASTRUCTURE',
-    color: 'text-orange-500 bg-orange-500',
+    color: 'text-[#E64A19] bg-[#E64A19]',
     icon: <TrendingUp className="w-6 h-6 text-white" />,
     items: [
       { label: 'Industrial Automation', icon: <Layers size={16} /> },
@@ -94,7 +94,7 @@ export default function WhatWeOffer() {
   };
 
   return (
-    <section className="relative w-full pt-20 sm:pt-28 pb-8 sm:pb-12 bg-[#faf8f5] text-slate-900">
+    <section id="what-we-offer" className="relative w-full pt-20 sm:pt-28 pb-4 sm:pb-6 bg-[#faf8f5] text-slate-900 scroll-mt-24">
       <div className="max-w-[1400px] mx-auto px-6 sm:px-12">
 
         {/* Main Grid Layout */}
@@ -106,8 +106,7 @@ export default function WhatWeOffer() {
               <div className="bg-white/95 backdrop-blur-md px-8 py-7 rounded-[32px] border border-slate-200/90 shadow-[0_20px_50px_rgba(0,0,0,0.07)] space-y-4 w-full max-w-[440px] mx-auto lg:mx-0">
 
                 {/* Badge */}
-                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-950 text-white text-xs font-bold tracking-wider uppercase shadow-sm">
-                  <span className="text-amber-400">✨</span>
+                <div className="inline-flex items-center justify-center px-5 py-2 sm:px-6 sm:py-2.5 rounded-full bg-[#FFF3EC] border border-[#E64A19]/30 shadow-sm text-[#E64A19] text-xs font-bold tracking-wider uppercase">
                   <span>WHAT WE OFFER</span>
                 </div>
 
@@ -115,12 +114,12 @@ export default function WhatWeOffer() {
                 <h2 className="text-3xl sm:text-4xl lg:text-[38px] font-black tracking-tight text-[#0f172a] leading-[1.14]">
                   Everything You <br />
                   Need to Turn <br />
-                  <span className="text-[#2563eb] drop-shadow-[0_0_20px_rgba(59,130,246,0.2)]">
-                    Ideas into <span className="text-[#f59e0b]">Impact</span>
+                  <span className="text-[#1855BF] drop-shadow-[0_0_20px_rgba(24,85,191,0.2)]">
+                    Ideas into <span className="text-[#E64A19]">Impact</span>
                   </span>
                 </h2>
 
-                <div className="w-12 h-1.5 bg-amber-500 rounded-full" />
+                <div className="w-12 h-1.5 bg-[#E64A19] rounded-full" />
 
                 {/* Description */}
                 <p className="text-sm sm:text-base text-slate-600 leading-relaxed font-normal">
@@ -136,7 +135,7 @@ export default function WhatWeOffer() {
                       onClick={() => scrollToCard(cat.id)}
                       className="w-full flex items-center gap-3 py-1.5 px-3 -mx-3 rounded-xl hover:bg-slate-50 transition-colors duration-200 text-left group"
                     >
-                      <span className="w-7 h-7 rounded-full bg-slate-100 group-hover:bg-amber-100 text-slate-700 group-hover:text-amber-600 text-xs font-black flex items-center justify-center shrink-0 transition-colors">
+                      <span className="w-7 h-7 rounded-full bg-slate-100 group-hover:bg-[#E64A19]/10 text-slate-700 group-hover:text-[#E64A19] text-xs font-black flex items-center justify-center shrink-0 transition-colors">
                         {cat.id}
                       </span>
                       <span className="text-[13px] font-bold text-slate-800 group-hover:text-slate-950 tracking-wide transition-colors">
@@ -164,7 +163,7 @@ export default function WhatWeOffer() {
                       <div className={`w-12 h-12 rounded-2xl ${offer.color} flex items-center justify-center mb-6 shadow-md`}>
                         {offer.icon}
                       </div>
-                      <span className="text-2xl sm:text-3xl font-black text-amber-500 block mb-1">
+                      <span className="text-2xl sm:text-3xl font-black text-[#E64A19] block mb-1">
                         {offer.id}
                       </span>
                       <h3 className="text-lg sm:text-xl font-black text-slate-900 tracking-wide mb-6">

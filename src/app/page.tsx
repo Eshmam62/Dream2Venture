@@ -1,11 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Header from "@/components/Header";
+
 import HeroSection from "@/components/HeroSection";
 import TrustedPartners from "@/components/TrustedPartners";
 import HowItWorks from "@/components/HowItWorks";
-import FocusAreas from "@/components/FocusAreas";
+import WhoCanApply from "@/components/WhoCanApply";
 import WhatWeOffer from "@/components/WhatWeOffer";
 import Footer from "@/components/Footer";
 import FloatingRegistration from "@/components/FloatingRegistration";
@@ -54,7 +54,7 @@ export default function Home() {
 
       {/* Content wrapper with z-index to stay above background but below cursor */}
       <div className="relative z-10 w-full">
-        <Header />
+
         <HeroSection />
 
         <div className="relative z-20 w-full">
@@ -64,7 +64,7 @@ export default function Home() {
           <TrustedPartners />
           <HowItWorks />
           <WhatWeOffer />
-          <FocusAreas />
+          <WhoCanApply />
         </div>
       </div>
 

@@ -69,7 +69,7 @@ export default function HowItWorks() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   return (
-    <section className="relative w-full bg-[#f8fbff] pt-10 pb-6 sm:pt-12 sm:pb-8 px-4 sm:px-6 lg:px-8 overflow-visible [touch-action:pan-y]">
+    <section id="how-it-works" className="relative w-full bg-[#f8fbff] pt-10 pb-4 sm:pt-12 sm:pb-4 px-4 sm:px-6 lg:px-8 overflow-visible [touch-action:pan-y] scroll-mt-24">
       {/* Background Soft Glows */}
       <div className="absolute top-1/4 -left-32 w-[500px] h-[500px] bg-blue-300/25 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute top-1/3 -right-32 w-[500px] h-[500px] bg-amber-200/25 rounded-full blur-3xl pointer-events-none" />
@@ -77,15 +77,15 @@ export default function HowItWorks() {
       {/* Centered Header Section */}
       <ScrollReveal>
         <div className="relative z-10 w-full max-w-5xl mx-auto text-center flex flex-col items-center justify-center mb-16 px-4">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-900 text-amber-400 text-xs font-bold tracking-widest uppercase mb-4 shadow-md border border-slate-800">
-            <span>★</span> HOW IT WORKS
+          <div className="inline-flex items-center justify-center px-5 py-2 sm:px-6 sm:py-2.5 rounded-full bg-[#FFF3EC] border border-[#E64A19]/30 shadow-sm text-[#E64A19] text-xs font-bold tracking-wider uppercase mb-4">
+            HOW IT WORKS
           </div>
 
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-[#0f172a] leading-tight tracking-tight whitespace-normal sm:whitespace-nowrap">
-            A <span className="text-[#2563eb]">proven</span>{' '}
-            <span className="text-[#f59e0b]">process</span> from idea to{' '}
-            <span className="text-[#2563eb]">launch</span>
-            <span className="text-[#f59e0b]">.</span>
+            A <span className="text-[#1855BF]">proven</span>{' '}
+            <span className="text-[#E64A19]">process</span> from idea to{' '}
+            <span className="text-[#1855BF]">launch</span>
+            <span className="text-[#E64A19]">.</span>
           </h2>
 
           <p className="mt-4 text-slate-600 text-base sm:text-lg md:text-xl font-medium leading-relaxed max-w-2xl mx-auto">
