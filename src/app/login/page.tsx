@@ -130,8 +130,15 @@ function AuthContent() {
         className={`absolute top-0 left-0 h-full w-1/2 bg-gradient-to-br from-blue-600 to-purple-600 z-50 text-white flex flex-col items-center justify-center p-12 text-center transition-transform duration-700 ease-in-out ${isSignUp ? 'translate-x-full' : 'translate-x-0'}`}
       >
         <div className="relative z-10 flex flex-col items-center justify-center h-full w-full space-y-6">
-          <Image alt="Logo" src="/footerlogo.png" width={160} height={50} className="mb-4 brightness-0 invert" />
-          <h2 className="text-4xl font-bold">
+          <Image 
+            alt="D2V Logo" 
+            src="/footerlogo.png" 
+            width={160} 
+            height={50} 
+            className="mb-4 object-contain"
+            style={{ filter: 'drop-shadow(0px 4px 12px rgba(255, 255, 255, 0.25))' }}
+          />
+          <h2 className="text-4xl font-bold text-white">
             {isSignUp ? 'Welcome Back!' : 'Hello, Friend!'}
           </h2>
           <p className="text-blue-100 text-lg max-w-xs">
@@ -146,7 +153,7 @@ function AuthContent() {
               setLoginError('');
               setRegError('');
             }}
-            className="px-10 py-3 rounded-full border-2 border-white text-white font-bold tracking-wider hover:bg-white hover:text-blue-600 transition-colors uppercase text-sm mt-4 shadow-[0_0_20px_rgba(255,255,255,0.2)]"
+            className="px-10 py-3 rounded-full border-2 border-white text-white font-bold tracking-wider hover:bg-white hover:text-[#f35c24] transition-colors uppercase text-sm mt-4 shadow-[0_0_20px_rgba(255,255,255,0.2)]"
           >
             {isSignUp ? 'Sign In' : 'Sign Up'}
           </button>
@@ -215,9 +222,9 @@ function AuthContent() {
             <div className="relative">
               <input 
                 type={showPassword ? 'text' : 'password'} 
-                placeholder="At least 6 characters" 
+                placeholder="At least 8 characters" 
                 required
-                minLength={6}
+                minLength={8}
                 value={regPassword}
                 onChange={(e) => setRegPassword(e.target.value)}
                 className="w-full bg-slate-100 px-4 py-3 rounded-lg border border-slate-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 text-slate-900 outline-none transition-all pr-12"
@@ -243,7 +250,7 @@ function AuthContent() {
                 type={showConfirmPassword ? 'text' : 'password'} 
                 placeholder="Repeat your password" 
                 required
-                minLength={6}
+                minLength={8}
                 value={regConfirmPassword}
                 onChange={(e) => setRegConfirmPassword(e.target.value)}
                 className="w-full bg-slate-100 px-4 py-3 rounded-lg border border-slate-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 text-slate-900 outline-none transition-all pr-12"
@@ -367,13 +374,7 @@ export default function LoginPage() {
 
       {/* Header / Exit */}
       <header className="absolute top-0 left-0 right-0 z-50 w-full pointer-events-none">
-        <div className="w-full max-w-7xl mx-auto px-6 sm:px-8 py-5 sm:py-6 flex items-center justify-between pointer-events-auto">
-          <Link 
-            className="inline-flex items-center justify-center px-5 py-2.5 rounded-full backdrop-blur-md border hover:shadow-lg transition-all duration-300 bg-white/95 border-slate-200/90 shadow-[0_8px_25px_rgba(0,0,0,0.12)]" 
-            href="/"
-          >
-            <Image alt="Logo" className="object-contain" height={34} priority src="/footerlogo.png" width={115}/>
-          </Link>
+        <div className="w-full max-w-7xl mx-auto px-6 sm:px-8 py-5 sm:py-6 flex items-center justify-end pointer-events-auto">
           <Link className="group inline-flex items-center gap-2.5 px-6 py-2.5 rounded-full bg-white text-[#0f172a] font-bold text-xs sm:text-sm tracking-wider uppercase shadow-md border hover:bg-[#f35c24] hover:text-white transition-all duration-300" href="/">
             <span>EXIT</span>
           </Link>

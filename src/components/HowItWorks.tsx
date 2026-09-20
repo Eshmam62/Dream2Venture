@@ -20,7 +20,7 @@ const stepsData: StepItem[] = [
     description:
       'Submit your idea through our simple application form. Tell us about your vision, target audience, and goals. We review every application personally.',
     image:
-      '/Apply.jpeg',
+      '/Apply.png',
     tiltClass: 'lg:rotate-[-5deg] lg:translate-y-2 hover:rotate-0',
   },
   {
@@ -40,7 +40,7 @@ const stepsData: StepItem[] = [
     description:
       'Our industry mentors and technical advisors thoroughly evaluate market feasibility, scalability, and execution strategy.',
     image:
-      '/Evaluation.jpeg',
+      '/Evaluation.png',
     tiltClass: 'rotate-0 lg:-translate-y-2 hover:rotate-0',
   },
   {

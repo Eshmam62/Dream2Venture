@@ -40,6 +40,7 @@ function SubmissionContent() {
     setIsUploading(prev => ({...prev, [key]: true}));
     const fd = new FormData();
     fd.append('file', file);
+    fd.append('field', key);
     try {
       const res = await fetch('/api/upload', { method: 'POST', body: fd });
       const data = await res.json();
@@ -140,13 +141,15 @@ function SubmissionContent() {
       const file = e.target.files[0];
       const validTypes = ['application/pdf', 'application/vnd.ms-powerpoint', 'application/vnd.openxmlformats-officedocument.presentationml.presentation'];
       if (!validTypes.includes(file.type)) {
-        setPitchDeckError('Please upload a PDF, PPT, or PPTX file.');
+        setPitchDeckError('Invalid file format. Please upload a PDF or PowerPoint (.ppt, .pptx) file.');
         setPitchDeckFile(null);
+        if (pitchDeckInputRef.current) pitchDeckInputRef.current.value = '';
         return;
       }
       if (file.size > 25 * 1024 * 1024) {
-        setPitchDeckError('File size exceeds the 25MB limit.');
+        setPitchDeckError('File size exceeds the 25MB limit. Please upload a file under 25MB.');
         setPitchDeckFile(null);
+        if (pitchDeckInputRef.current) pitchDeckInputRef.current.value = '';
         return;
       }
       setPitchDeckFile(file);
@@ -169,6 +172,11 @@ function SubmissionContent() {
   const handleUniversityIdChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
       const file = e.target.files[0];
+      if (file.type !== 'image/png' && file.type !== 'image/jpeg') {
+        alert('Please upload a PNG or JPG image only.');
+        if (universityIdInputRef.current) universityIdInputRef.current.value = '';
+        return;
+      }
       setUniversityIdFile(file);
       const url = await uploadFileImmediately(file, 'univ');
       if (url) setUnivIdUrl(url);
@@ -178,26 +186,30 @@ function SubmissionContent() {
   const handleNidChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     setNidError('');
     if (e.target.files && e.target.files.length > 0) {
-      const files = Array.from(e.target.files);
-      if (files.some(f => f.size > 5 * 1024 * 1024)) {
-          setNidError('One or more files exceed the 5MB limit.');
-          return;
+      const file = e.target.files[0];
+      if (file.type !== 'application/pdf') {
+        setNidError('Invalid file type. Only PDF files are allowed.');
+        setNidFiles([]);
+        if (nidInputRef.current) nidInputRef.current.value = '';
+        return;
       }
-      setNidFiles(files);
+      if (file.size > 5 * 1024 * 1024) {
+        setNidError('File size exceeds 5MB limit. Please upload a PDF under 5MB.');
+        setNidFiles([]);
+        if (nidInputRef.current) nidInputRef.current.value = '';
+        return;
+      }
+      setNidFiles([file]);
       setIsUploading(prev => ({...prev, nid: true}));
-      const urls = [];
-      for (const f of files) {
-        const fd = new FormData();
-        fd.append('file', f);
-        try {
-          const res = await fetch('/api/upload', { method: 'POST', body: fd });
-          const data = await res.json();
-          if (data.url) urls.push(data.url);
-        } catch (err) {
-          console.error(err);
-        }
+      const fd = new FormData();
+      fd.append('file', file);
+      try {
+        const res = await fetch('/api/upload', { method: 'POST', body: fd });
+        const data = await res.json();
+        if (data.url) setNidUrlsStr(data.url);
+      } catch (err) {
+        console.error(err);
       }
-      if (urls.length > 0) setNidUrlsStr(urls.join(','));
       setIsUploading(prev => ({...prev, nid: false}));
     }
   };
@@ -207,8 +219,15 @@ function SubmissionContent() {
     if (e.target.files && e.target.files.length > 0) {
       const file = e.target.files[0];
       if (file.type !== 'application/pdf') {
-        setResumeError('Please upload a PDF file.');
+        setResumeError('Invalid file type. Only PDF files are allowed.');
         setResumeFile(null);
+        if (resumeInputRef.current) resumeInputRef.current.value = '';
+        return;
+      }
+      if (file.size > 5 * 1024 * 1024) {
+        setResumeError('File size exceeds the 5MB limit. Please upload a smaller PDF.');
+        setResumeFile(null);
+        if (resumeInputRef.current) resumeInputRef.current.value = '';
         return;
       }
       setResumeFile(file);
@@ -503,7 +522,7 @@ function SubmissionContent() {
                   type="file" 
                   ref={universityIdInputRef}
                   className="hidden" 
-                  accept=".png,.jpg,.jpeg,.pdf"
+                  accept="image/png, image/jpeg, image/jpg, .png, .jpg, .jpeg"
                   onChange={handleUniversityIdChange}
                 />
                 {universityIdFile || univIdUrl ? (
@@ -522,7 +541,7 @@ function SubmissionContent() {
                 ) : (
                   <div className="text-center">
                     <svg className="w-8 h-8 text-slate-400 mx-auto mb-2 group-hover:text-blue-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
-                    <span className="text-sm font-medium text-slate-600 block">Click to upload (PNG, JPG, PDF)</span>
+                    <span className="text-sm font-medium text-slate-600 block">Click to upload (PNG, JPG)</span>
                   </div>
                 )}
               </div>
@@ -546,13 +565,13 @@ function SubmissionContent() {
             
             <div 
               onClick={() => resumeInputRef.current?.click()}
-              className={`w-full h-40 border-2 border-dashed rounded-2xl flex flex-col items-center justify-center cursor-pointer transition-colors group ${resumeError ? 'border-red-300 bg-red-50/50' : 'border-slate-300 hover:border-blue-400 hover:bg-slate-50'}`}
+              className={`w-full h-40 border-2 border-dashed rounded-2xl flex flex-col items-center justify-center cursor-pointer transition-colors group ${resumeError ? 'border-red-500 bg-red-50/50' : 'border-slate-300 hover:border-blue-400 hover:bg-slate-50'}`}
             >
               <input 
                 type="file" 
                 ref={resumeInputRef}
                 className="hidden" 
-                accept=".pdf"
+                accept="application/pdf, .pdf"
                 onChange={handleResumeChange}
               />
               {resumeFile || resumeUrl ? (
@@ -593,7 +612,7 @@ function SubmissionContent() {
 
             <div className="mb-4 p-4 bg-amber-50 rounded-lg border border-amber-200">
               <p className="text-sm font-medium text-amber-800">
-                Notice: Please upload clear photos of both the front and back sides of your National ID card (or a merged 2-sided PDF).
+                Notice: Please upload a clear merged 2-sided PDF of your National ID card.
               </p>
             </div>
             
@@ -605,14 +624,13 @@ function SubmissionContent() {
             
             <div 
               onClick={() => nidInputRef.current?.click()}
-              className={`w-full min-h-[10rem] border-2 border-dashed rounded-2xl flex flex-col items-center justify-center p-6 cursor-pointer transition-colors group ${nidError ? 'border-red-300 bg-red-50/50' : 'border-slate-300 hover:border-blue-400 hover:bg-slate-50'}`}
+              className={`w-full min-h-[10rem] border-2 border-dashed rounded-2xl flex flex-col items-center justify-center p-6 cursor-pointer transition-colors group ${nidError ? 'border-red-500 bg-red-50/50' : 'border-slate-300 hover:border-blue-400 hover:bg-slate-50'}`}
             >
               <input 
                 type="file" 
                 ref={nidInputRef}
                 className="hidden" 
-                accept=".png,.jpg,.jpeg,.pdf"
-                multiple
+                accept="application/pdf, .pdf"
                 onChange={handleNidChange}
               />
               {nidFiles.length > 0 || nidUrlsStr ? (
@@ -652,7 +670,7 @@ function SubmissionContent() {
                   </div>
                   <span className="text-sm font-bold text-slate-700 block mb-1">Click to {existingFiles.nid ? 'update' : 'upload'} your NID Card (Both Sides)</span>
                   {existingFiles.nid && <span className="text-xs font-medium text-blue-500 block mb-1">Previously uploaded files found ✓</span>}
-                  <span className="text-xs font-medium text-slate-500">Accepted formats: PDF, JPG, PNG (Upload front & back or a 2-page PDF, Max 5MB each)</span>
+                  <span className="text-xs font-medium text-slate-500">Accepted format: PDF only (2-page merged PDF, Max 5MB)</span>
                 </div>
               )}
             </div>
@@ -801,13 +819,13 @@ function SubmissionContent() {
             
             <div 
               onClick={() => pitchDeckInputRef.current?.click()}
-              className={`w-full h-40 border-2 border-dashed rounded-2xl flex flex-col items-center justify-center cursor-pointer transition-colors group ${pitchDeckError ? 'border-red-300 bg-red-50/50' : 'border-slate-300 hover:border-blue-400 hover:bg-slate-50'}`}
+              className={`w-full h-40 border-2 border-dashed rounded-2xl flex flex-col items-center justify-center cursor-pointer transition-colors group ${pitchDeckError ? 'border-red-500 bg-red-50/50' : 'border-slate-300 hover:border-blue-400 hover:bg-slate-50'}`}
             >
               <input 
                 type="file" 
                 ref={pitchDeckInputRef}
                 className="hidden" 
-                accept=".pdf,.ppt,.pptx"
+                accept=".pdf, .ppt, .pptx, application/pdf, application/vnd.ms-powerpoint, application/vnd.openxmlformats-officedocument.presentationml.presentation"
                 onChange={handlePitchDeckChange}
               />
               {pitchDeckFile || deckUrl ? (
