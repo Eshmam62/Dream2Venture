@@ -423,9 +423,8 @@ export default function AdminDashboardPage() {
                                 className="bg-black/50 border border-white/20 rounded px-3 py-1.5 w-full text-sm outline-none focus:border-blue-500 text-white"
                               />
                             ) : (
-                              <div className="font-semibold text-white whitespace-nowrap">{user.fullName}</div>
+                              <div className="font-bold text-white whitespace-nowrap">{user.fullName}</div>
                             )}
-                            <div className="text-[11px] text-slate-500 mt-1 font-mono">{user.id}</div>
                           </td>
                           <td className="p-5">
                             <div className="text-sm text-slate-300">{user.email}</div>
