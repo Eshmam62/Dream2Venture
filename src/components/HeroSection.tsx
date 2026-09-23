@@ -66,30 +66,45 @@ export default function HeroSection() {
     const video = videoRef.current;
     if (!video) return;
 
-    const unmuteOnInteraction = () => {
+    // 1. Ensure video starts playing immediately
+    video.play().catch(() => {});
+
+    // 2. Handler to unmute smoothly
+    const unmute = () => {
       video.muted = false;
       video.volume = 1.0;
-      ['click', 'touchstart', 'scroll', 'mousemove', 'keydown'].forEach((e) => {
-        window.removeEventListener(e, unmuteOnInteraction);
+      ['click', 'touchstart', 'keydown'].forEach((event) => {
+        window.removeEventListener(event, unmute);
       });
     };
 
-    ['click', 'touchstart', 'scroll', 'mousemove', 'keydown'].forEach((e) => {
-      window.addEventListener(e, unmuteOnInteraction, { once: true, passive: true });
-    });
+    // Try to unmute immediately if allowed
+    video.muted = false;
+    video.play()
+      .then(() => {
+        // Successfully playing unmuted
+      })
+      .catch(() => {
+        // Blocked by Chrome autoplay policy: keep playing muted until first interaction
+        video.muted = true;
+        video.play().catch(() => {});
+        ['click', 'touchstart', 'keydown'].forEach((event) => {
+          window.addEventListener(event, unmute, { once: true, passive: true });
+        });
+      });
 
     const handleVisibilityChange = () => {
       if (document.hidden) {
         video.pause();
       } else {
-        video.play().catch(() => { });
+        video.play().catch(() => {});
       }
     };
     document.addEventListener('visibilitychange', handleVisibilityChange);
 
     return () => {
-      ['click', 'touchstart', 'scroll', 'mousemove', 'keydown'].forEach((e) => {
-        window.removeEventListener(e, unmuteOnInteraction);
+      ['click', 'touchstart', 'keydown'].forEach((event) => {
+        window.removeEventListener(event, unmute);
       });
       document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
@@ -105,6 +120,7 @@ export default function HeroSection() {
           autoPlay
           playsInline
           muted
+          preload="auto"
           onEnded={(e) => {
             e.currentTarget.pause();
           }}
