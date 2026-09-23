@@ -12,15 +12,10 @@ const navItems = [
 
 export default function HeroSection() {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [isMuted, setIsMuted] = useState(true);
-  const [isScrolled, setIsScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('');
 
   useEffect(() => {
     const handleScroll = () => {
-      // Toggle capsule background style
-      setIsScrolled(window.scrollY > 80);
-
       // Top of page (Hero section)
       if (window.scrollY < 250) {
         setActiveSection('');
@@ -67,16 +62,38 @@ export default function HeroSection() {
     }
   };
 
-  const toggleMute = () => {
-    if (videoRef.current) {
-      videoRef.current.muted = !videoRef.current.muted;
-      setIsMuted(videoRef.current.muted);
-    }
-  };
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
 
-  const capsuleStyle = isScrolled
-    ? 'bg-[#f1f5f9]/95 border-slate-300 shadow-[0_8px_25px_rgba(15,23,42,0.12)]'
-    : 'bg-white/95 border-slate-200/90 shadow-[0_8px_25px_rgba(0,0,0,0.12)]';
+    const unmuteOnInteraction = () => {
+      video.muted = false;
+      video.volume = 1.0;
+      ['click', 'touchstart', 'scroll', 'mousemove', 'keydown'].forEach((e) => {
+        window.removeEventListener(e, unmuteOnInteraction);
+      });
+    };
+
+    ['click', 'touchstart', 'scroll', 'mousemove', 'keydown'].forEach((e) => {
+      window.addEventListener(e, unmuteOnInteraction, { once: true, passive: true });
+    });
+
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        video.pause();
+      } else {
+        video.play().catch(() => { });
+      }
+    };
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    return () => {
+      ['click', 'touchstart', 'scroll', 'mousemove', 'keydown'].forEach((e) => {
+        window.removeEventListener(e, unmuteOnInteraction);
+      });
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, []);
 
   return (
     <section className="relative w-full min-h-screen bg-black text-slate-900 overflow-hidden flex flex-col justify-center pt-28 sm:pt-32 px-6 sm:px-12">
@@ -86,24 +103,24 @@ export default function HeroSection() {
           ref={videoRef}
           src="/heros1.mp4"
           autoPlay
-          muted={isMuted}
           playsInline
+          muted
           onEnded={(e) => {
             e.currentTarget.pause();
           }}
           className="w-full h-full object-cover object-center opacity-100 brightness-100 contrast-100"
         />
       </div>
-      {/* Persistent Fixed Floating Header with Enhanced Elevation Shadow */}
+      {/* Persistent Fixed Floating Header */}
       <header className="fixed top-0 left-0 right-0 z-50 w-full px-6 sm:px-12 py-5 pointer-events-none">
         <div className="relative w-full max-w-7xl mx-auto flex items-center justify-between">
-          {/* Left: Logo inside its own matching white pill */}
+          {/* Left: Logo */}
           <div className="pointer-events-auto">
-            <Link 
-              className={`inline-flex items-center justify-center px-5 py-2 sm:py-2.5 rounded-full backdrop-blur-md border hover:shadow-lg transition-all duration-300 ${capsuleStyle}`} 
+            <Link
+              className="inline-flex items-center justify-center transition-transform duration-300 hover:scale-105"
               href="/"
             >
-              <Image alt="Dream2Venture Logo" className="object-contain" height={34} priority src="/footerlogo.png" width={115}/>
+              <Image alt="Dream2Venture Logo" className="object-contain drop-shadow-md" height={80} priority src="/Fontlogo-clean.png" width={260} />
             </Link>
           </div>
 
@@ -115,39 +132,18 @@ export default function HeroSection() {
       <div className="relative z-20 w-full max-w-7xl mx-auto my-auto grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-4 items-center py-4">
         {/* Left Column (5 cols) */}
         <div className="lg:col-span-5 flex flex-col items-start text-left z-10">
-          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-white max-w-2xl leading-[1.1]">
-            Transform Your Vision Into a{" "}
-            <span className="text-[#38bdf8]">Market</span>{" "}
-            <span className="text-[#E64A19]">Leader</span>
+          <h1 className="text-white font-serif text-4xl sm:text-5xl lg:text-[56px] font-bold leading-[1.1] tracking-tight max-w-xl">
+            <span className="text-[#E64A19]">WHERE</span> YOUR<br className="hidden sm:inline" />
+            VISION BECOME<br className="hidden sm:inline" />
+            <span className="text-[#0ea5e9] uppercase">Tomorrow's</span><br className="hidden sm:inline" />
+            <span className="text-[#E64A19] uppercase">Success</span>
           </h1>
 
-          <p className="mt-6 mb-8 text-base sm:text-lg text-slate-200 max-w-xl leading-relaxed">
-            We back bold founders with early-stage capital, hands-on mentorship, and the technology network required to build category-defining ventures.
+          <p className="mt-6 mb-8 text-lg sm:text-xl text-slate-200 max-w-2xl leading-relaxed font-serif">
+            Your vision is where tomorrow begins. We provide the opportunity, support, and resources for your growth
           </p>
 
-          <div className="flex flex-col items-start gap-4">
 
-            <button
-              type="button"
-              onClick={toggleMute}
-              className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-white flex items-center justify-center backdrop-blur-md transition-all cursor-pointer shadow-md hover:scale-105 active:scale-95"
-              aria-label={isMuted ? "Unmute audio" : "Mute audio"}
-              title={isMuted ? "Unmute" : "Mute"}
-            >
-              {isMuted ? (
-                /* Muted Speaker Icon */
-                <svg className="w-5 h-5 text-white/90" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />
-                </svg>
-              ) : (
-                /* Unmuted Speaker / Sound Wave Icon */
-                <svg className="w-5 h-5 text-[#E64A19]" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
-                </svg>
-              )}
-            </button>
-          </div>
         </div>
 
         {/* Right Column: Shifted Further Left & Scaled Up One Size */}

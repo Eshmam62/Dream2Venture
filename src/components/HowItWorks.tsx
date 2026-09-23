@@ -3,25 +3,19 @@
 import React, { useState } from 'react';
 import ScrollReveal from './ScrollReveal';
 
-interface StepItem {
-  id: string;
-  stepLabel: string;
-  title: string;
-  description: string;
-  image: string;
-  tiltClass: string;
-}
-
-const stepsData: StepItem[] = [
+/* ─────────────────────────────────────────────
+   Step data
+   ───────────────────────────────────────────── */
+const stepsData = [
   {
     id: '01',
     stepLabel: 'Step 01',
     title: 'Apply',
     description:
       'Submit your idea through our simple application form. Tell us about your vision, target audience, and goals. We review every application personally.',
-    image:
-      '/Apply.png',
-    tiltClass: 'lg:rotate-[-5deg] lg:translate-y-2 hover:rotate-0',
+    image: '/Apply.png',
+    // fan-out: leftmost card tilts most negative, rightmost most positive
+    tiltClass: 'lg:-rotate-[4deg] lg:translate-y-4',
   },
   {
     id: '02',
@@ -29,9 +23,8 @@ const stepsData: StepItem[] = [
     title: 'Submit & Refine',
     description:
       'Share your initial prototype, slide deck, or business roadmap. Our team collaborates directly with you to sharpen your value proposition.',
-    image:
-      '/submit$refine.jpeg',
-    tiltClass: 'lg:rotate-[-2deg] lg:-translate-y-1 hover:rotate-0',
+    image: '/submit.jpeg',
+    tiltClass: 'lg:-rotate-[2deg] lg:translate-y-1',
   },
   {
     id: '03',
@@ -39,9 +32,8 @@ const stepsData: StepItem[] = [
     title: 'Evaluation',
     description:
       'Our industry mentors and technical advisors thoroughly evaluate market feasibility, scalability, and execution strategy.',
-    image:
-      '/Evaluation.png',
-    tiltClass: 'rotate-0 lg:-translate-y-2 hover:rotate-0',
+    image: '/Evaluation.png',
+    tiltClass: 'lg:rotate-0 lg:-translate-y-1',
   },
   {
     id: '04',
@@ -49,9 +41,8 @@ const stepsData: StepItem[] = [
     title: 'Support & Invest',
     description:
       'Receive early-stage funding, direct hands-on mentorship, tech infrastructure, and investor introductions to build fast.',
-    image:
-      '/support&innovation.jpeg',
-    tiltClass: 'lg:rotate-[2deg] lg:-translate-y-1 hover:rotate-0',
+    image: '/support.jpeg',
+    tiltClass: 'lg:rotate-[2deg] lg:translate-y-1',
   },
   {
     id: '05',
@@ -59,110 +50,167 @@ const stepsData: StepItem[] = [
     title: 'Grow & Scale',
     description:
       'Scale your venture into a category-defining company with global market access, enterprise partners, and follow-on rounds.',
-    image:
-      'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80',
-    tiltClass: 'lg:rotate-[5deg] lg:translate-y-2 hover:rotate-0',
+    image: '/grow.png',
+    tiltClass: 'lg:rotate-[4deg] lg:translate-y-4',
   },
 ];
 
+/* ─────────────────────────────────────────────
+   Component
+   ───────────────────────────────────────────── */
 export default function HowItWorks() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   return (
-    <section id="how-it-works" className="relative w-full bg-[#f8fbff] pt-10 pb-4 sm:pt-12 sm:pb-4 px-4 sm:px-6 lg:px-8 overflow-visible [touch-action:pan-y] scroll-mt-24">
-      {/* Background Soft Glows */}
-      <div className="absolute top-1/4 -left-32 w-[500px] h-[500px] bg-blue-300/25 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute top-1/3 -right-32 w-[500px] h-[500px] bg-amber-200/25 rounded-full blur-3xl pointer-events-none" />
+    <section
+      id="how-it-works"
+      className="relative w-full bg-[#f8fbff] pt-20 pb-20 sm:pt-24 sm:pb-24 scroll-mt-24"
+    >
 
-      {/* Centered Header Section */}
+      {/* ── Atmospheric background glows ── */}
+      <div aria-hidden="true" className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div className="absolute -top-40 left-[15%] w-[680px] h-[680px] rounded-full bg-blue-200/18 blur-[140px]" />
+        <div className="absolute top-[30%] -right-48 w-[560px] h-[560px] rounded-full bg-indigo-200/12 blur-[120px]" />
+        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[380px] rounded-full bg-sky-100/22 blur-[100px]" />
+      </div>
+
+
+      {/* ── Section header ── */}
       <ScrollReveal>
-        <div className="relative z-10 w-full max-w-5xl mx-auto text-center flex flex-col items-center justify-center mb-16 px-4">
-          <div className="inline-flex items-center justify-center px-5 py-2 sm:px-6 sm:py-2.5 rounded-full bg-[#FFF3EC] border border-[#E64A19]/30 shadow-sm text-[#E64A19] text-xs font-bold tracking-wider uppercase mb-4">
-            HOW IT WORKS
+        <div className="relative z-10 max-w-5xl mx-auto text-center px-6 mb-16 sm:mb-20">
+
+          {/* Pill label */}
+          <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-[#FFF3EC] border border-[#E64A19]/25 shadow-sm mb-6">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#E64A19] flex-shrink-0" />
+            <span className="text-[#E64A19] text-[11px] font-bold tracking-[0.16em] uppercase select-none">
+              How It Works
+            </span>
           </div>
 
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-[#0f172a] leading-tight tracking-tight whitespace-normal sm:whitespace-nowrap">
-            A <span className="text-[#1855BF]">proven</span>{' '}
-            <span className="text-[#E64A19]">process</span> from idea to{' '}
-            <span className="text-[#1855BF]">launch</span>
-            <span className="text-[#E64A19]">.</span>
+          {/* Heading */}
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.25rem] font-black text-[#0f172a] leading-[1.1] tracking-tight mb-5 md:whitespace-nowrap">
+            Transforming{' '}
+            <span className="text-[#1855BF]">Vision</span>{' '}
+            <span className="text-[#E64A19]">into</span>{' '}
+            Action<span className="text-[#E64A19]">.</span>
           </h2>
 
-          <p className="mt-4 text-slate-600 text-base sm:text-lg md:text-xl font-medium leading-relaxed max-w-2xl mx-auto">
-            Five clear steps. No surprises. You see real progress every single day.
+          {/* Subtitle */}
+          <p className="text-slate-500 text-base sm:text-[1.05rem] font-normal leading-relaxed max-w-xl mx-auto">
+            Every Step Brings Your Vision Closer to Reality.
           </p>
         </div>
       </ScrollReveal>
 
-      {/* Larger Step Cards Row */}
-      <div
-        className="relative z-10 max-w-[1500px] mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 xl:gap-7 items-start justify-items-center px-2 py-4 [touch-action:pan-y]"
-        style={{ WebkitOverflowScrolling: 'touch' }}
-      >
-        {stepsData.map((step, idx) => (
-          <ScrollReveal key={step.id} delay={0.1 * idx} className="w-full flex justify-center self-start">
-            {/* Fixed slot so the layout never expands */}
+      {/* ── Cards row ──────────────────────────────────────────────────────
+          Mobile / tablet  : horizontal snap-scroll (flex, overflow-x-auto)
+          Desktop (lg+)    : 5-column grid, fan-out tilt, no overflow
+          ─────────────────────────────────────────────────────────────── */}
+      <div className="relative z-10 w-full px-4 sm:px-6 lg:px-10 xl:px-14">
+        <div
+          className={[
+            /* shared */
+            'max-w-[1500px] mx-auto',
+            /* mobile/tablet: scrollable row */
+            'flex gap-4 sm:gap-5 overflow-x-auto pb-4 lg:pb-0',
+            /* desktop: 5-column grid */
+            'lg:overflow-visible lg:grid lg:grid-cols-5 lg:gap-5 xl:gap-6',
+          ].join(' ')}
+          style={{ scrollSnapType: 'x mandatory', WebkitOverflowScrolling: 'touch' }}
+        >
+          {stepsData.map((step, idx) => (
             <div
-              className="relative w-full max-w-[270px] xl:max-w-[285px] h-[330px] sm:h-[350px] flex-shrink-0"
-              onMouseEnter={() => setHoveredIndex(idx)}
-              onMouseLeave={() => setHoveredIndex(null)}
+              key={step.id}
+              /* mobile fixed width; desktop = full grid cell */
+              className="flex-shrink-0 w-[240px] sm:w-[258px] lg:w-full"
+              style={{ scrollSnapAlign: 'start' }}
             >
-              {/* Floating Card Overlay */}
-              <div
-                className={`absolute top-0 left-0 w-full bg-white rounded-[30px] sm:rounded-[36px] p-4 sm:p-[18px] border transition-all duration-500 cursor-pointer overflow-hidden will-change-transform transform-gpu ${hoveredIndex === idx
-                    ? 'border-slate-900 shadow-[0_24px_48px_-12px_rgba(15,23,42,0.18)] -translate-y-2.5 z-40 scale-[1.03]'
-                    : `border-slate-200/80 shadow-[0_16px_40px_rgba(0,0,0,0.06)] z-10 ${step.tiltClass}`
-                  }`}
-                style={{ transform: 'translateZ(0)' }}
-              >
-                {/* Image Container - Enlarged view */}
-                <div className="w-full aspect-[4/4.2] rounded-[22px] sm:rounded-[26px] overflow-hidden relative bg-slate-900 shadow-inner">
-                  <img
-                    src={step.image}
-                    alt={step.title}
-                    className={`w-full h-full object-cover transition-all duration-500 ease-out ${hoveredIndex === idx ? 'grayscale-0 contrast-100' : 'grayscale contrast-125'
-                      }`}
-                  />
+              <ScrollReveal delay={0.07 * idx}>
+                {/*
+                  Tilt wrapper
+                  On desktop: each card has a unique rotation angle.
+                  On hover  : rotation resets to 0 and card lifts up.
+                */}
+                <div
+                  className={[
+                    'relative h-[390px] sm:h-[410px] lg:h-[430px] cursor-pointer',
+                    'transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)]',
+                    hoveredIndex === idx
+                      ? 'lg:!rotate-0 lg:!translate-y-0 scale-[1.04] z-30'
+                      : `${step.tiltClass} z-10 scale-100`,
+                  ].join(' ')}
+                  onMouseEnter={() => setHoveredIndex(idx)}
+                  onMouseLeave={() => setHoveredIndex(null)}
+                >
 
-                  {/* Initial Bottom Overlay (Picture 2 style) */}
-                  <div className={`absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/25 to-transparent transition-opacity duration-300 delay-75 ${hoveredIndex === idx ? 'opacity-0' : 'opacity-100'
-                    }`} />
+                  {/* White card shell */}
+                  <div
+                    className={[
+                      'absolute inset-0 rounded-[26px] sm:rounded-[30px] overflow-hidden',
+                      'border transition-all duration-500',
+                      hoveredIndex === idx
+                        ? 'shadow-[0_40px_80px_-16px_rgba(15,23,42,0.22)] border-slate-200/80'
+                        : 'shadow-[0_10px_38px_rgba(0,0,0,0.08)] border-white',
+                    ].join(' ')}
+                  >
 
-                  <div className={`absolute bottom-4 left-4 right-4 text-white transition-opacity duration-300 delay-75 pointer-events-none ${hoveredIndex === idx ? 'opacity-0' : 'opacity-100'
-                    }`}>
-                    <div className="inline-block bg-slate-800/90 backdrop-blur-sm text-slate-100 px-3 py-1 rounded-lg text-[10px] font-medium tracking-wider mb-1.5 shadow-md">
-                      {step.stepLabel}
+                    {/* ── Image ── */}
+                    <img
+                      src={step.image}
+                      alt={step.title}
+                      className={[
+                        'absolute inset-0 w-full h-full object-cover',
+                        'transition-all duration-700 ease-out',
+                        hoveredIndex === idx
+                          ? 'grayscale-0 scale-[1.06]'
+                          : 'grayscale contrast-[1.12] scale-100',
+                      ].join(' ')}
+                    />
+
+                    {/* ── Dark gradient overlay — heavier at bottom ── */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-900/28 to-slate-900/4" />
+
+                    {/* ── Subtle top vignette ── */}
+                    <div className="absolute inset-0 bg-gradient-to-b from-slate-950/20 via-transparent to-transparent" />
+
+                    {/* ── Step badge — frosted glass pill, top-left ── */}
+                    <div className="absolute top-4 left-4 z-10">
+                      <span className="inline-flex items-center px-3 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/22 text-white/88 text-[9.5px] font-bold tracking-[0.14em] uppercase shadow-sm">
+                        {step.stepLabel}
+                      </span>
                     </div>
-                    <div className="text-base sm:text-lg font-serif font-bold truncate">
-                      {step.title}
-                    </div>
-                  </div>
 
-                  {/* Picture 3 Top-Left Badge (Reveals on hover) */}
-                  <div className={`absolute top-3 left-3 transition-opacity duration-300 delay-75 ${hoveredIndex === idx ? 'opacity-100' : 'opacity-0'
-                    }`}>
-                    <span className="inline-block bg-slate-900 text-white px-3 py-1 rounded-lg text-[10px] font-medium tracking-wider shadow-md">
-                      {step.stepLabel}
-                    </span>
+                    {/* ── Bottom content area ── */}
+                    <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-6 z-10">
+
+                      {/* Title — always visible */}
+                      <h3 className="text-[1.05rem] sm:text-[1.1rem] font-bold text-white leading-snug tracking-tight">
+                        {step.title}
+                      </h3>
+
+                      {/* Description — slides in on hover */}
+                      <div
+                        className={[
+                          'overflow-hidden transition-all duration-500 ease-out',
+                          hoveredIndex === idx
+                            ? 'max-h-32 opacity-100 mt-2.5'
+                            : 'max-h-0 opacity-0 mt-0',
+                        ].join(' ')}
+                      >
+                        <p className="text-slate-300/90 text-[12px] sm:text-[12.5px] leading-[1.65] font-normal">
+                          {step.description}
+                        </p>
+                      </div>
+                    </div>
+
                   </div>
                 </div>
-
-                {/* Hover Detailed Content (Picture 3 style) */}
-                <div className={`transition-all duration-500 transform-gpu will-change-transform ease-out overflow-hidden px-3 text-left delay-75 ${hoveredIndex === idx ? 'max-h-64 opacity-100 pt-2 pb-2' : 'max-h-0 opacity-0'
-                  }`}>
-                  <h3 className="text-xl font-serif font-bold text-slate-900 tracking-tight">
-                    {step.title}
-                  </h3>
-
-                  <p className="text-slate-600 text-[13px] leading-relaxed mt-2 pb-1">
-                    {step.description}
-                  </p>
-                </div>
-              </div>
+              </ScrollReveal>
             </div>
-          </ScrollReveal>
-        ))}
+          ))}
+        </div>
       </div>
+
     </section>
   );
 }

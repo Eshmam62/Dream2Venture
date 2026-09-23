@@ -6,7 +6,7 @@ import ScrollReveal from './ScrollReveal';
 const offersList = [
   {
     id: '01',
-    category: 'DIGITAL & AI',
+    category: 'AI & DIGITAL',
     color: 'text-[#E64A19] bg-[#E64A19]',
     icon: <Cpu className="w-6 h-6 text-white" />,
     items: [
@@ -16,7 +16,7 @@ const offersList = [
       { label: 'Cybersecurity', icon: <ShieldCheck size={16} /> },
       { label: 'Data & Analytics', icon: <Database size={16} /> },
     ],
-    image: '/card1.png',
+    image: '/digital.jpeg',
   },
   {
     id: '02',
@@ -28,7 +28,7 @@ const offersList = [
       { label: 'EV & Mobility Technology', icon: <Sparkles size={16} /> },
       { label: 'Robotics & Automation', icon: <Layers size={16} /> },
     ],
-    image: '/card2.png',
+    image: '/hardware and engineering.jpeg',
   },
   {
     id: '03',
@@ -42,7 +42,7 @@ const offersList = [
       { label: 'Construction & Smart Building', icon: <Database size={16} /> },
       { label: 'Water & Waste Management', icon: <Globe size={16} /> },
     ],
-    image: '/card3.png',
+    image: '/industry1.jpeg',
   },
   {
     id: '04',
@@ -81,7 +81,7 @@ const offersList = [
       { label: 'Agriculture & Agritech', icon: <Leaf size={16} /> },
       { label: 'Tourism & Travel', icon: <Globe size={16} /> },
     ],
-    image: '/card6.png',
+    image: '/social-consumer.jpeg',
   },
 ];
 
@@ -112,10 +112,9 @@ export default function WhatWeOffer() {
 
                 {/* Title */}
                 <h2 className="text-3xl sm:text-4xl lg:text-[38px] font-black tracking-tight text-[#0f172a] leading-[1.14]">
-                  Everything You <br />
-                  Need to Turn <br />
+                  Every Great Product <br />
                   <span className="text-[#1855BF] drop-shadow-[0_0_20px_rgba(24,85,191,0.2)]">
-                    Ideas into <span className="text-[#E64A19]">Impact</span>
+                    Ready to <span className="text-[#E64A19]">Invest.</span>
                   </span>
                 </h2>
 
@@ -123,7 +122,7 @@ export default function WhatWeOffer() {
 
                 {/* Description */}
                 <p className="text-sm sm:text-base text-slate-600 leading-relaxed font-normal">
-                  We provide end-to-end support across Innovation, Investment, and Industry to help student ideas become real-world ventures.
+                  We provide the support, resources, and opportunities they need to grow.
                 </p>
 
                 {/* Clickable Category Navigation List */}

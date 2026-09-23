@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   description: "Turn Your Disruptive Idea Into a Scalable Venture. Dream2Venture is a joint venture initiative committed to discovering next-gen student innovators.",
 };
 
-import SmoothScrollProvider from "@/components/SmoothScrollProvider";
+import SmoothScroll from "@/components/SmoothScroll";
 
 export default function RootLayout({
   children,
@@ -29,9 +29,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${poppins.variable} ${lora.variable} antialiased overflow-x-clip`}>
       <body className="min-h-screen flex flex-col bg-transparent text-slate-900 font-lora selection:bg-[#a95ef8] selection:text-white overflow-x-clip">
-        <SmoothScrollProvider>
+        <SmoothScroll>
           {children}
-        </SmoothScrollProvider>
+        </SmoothScroll>
       </body>
     </html>
   );
